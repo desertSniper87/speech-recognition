@@ -4,7 +4,14 @@ services:
   fairseq:
     build: .
     stdin_open: true 
-    tty: true        
+    tty: true   
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data 
+      - type: bind
+        source: ./scripts
+        target: /scripts 
     # ports:
       # - "80:8000"
     deploy:
@@ -16,6 +23,12 @@ services:
               capabilities: [gpu]
       # mode: replicated
       # replicas: 5
-    # environment:
+    environment:
+      - LS_ROOT=/data/LS_ROOT
+      - MTEDX_ROOT=/data/MTEDX_ROOT
+      - ASR_SAVE_DIR=/data/MTEDX_ROOT/ASR_SAVE_DIR
+      - PRETRAINED_ENCODER=/data/PRETRAINED_ENCODER
     #   - GPU_DEVICE_ID=0
+volumes:
+  data:
     
